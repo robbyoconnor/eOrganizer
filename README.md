@@ -2,7 +2,7 @@
 Hackathon Starter [![Dependency Status](https://david-dm.org/sahat/hackathon-starter/status.svg?style=flat)](https://david-dm.org/sahat/hackathon-starter) [![Build Status](https://img.shields.io/travis/sahat/hackathon-starter.svg?style=flat)](https://travis-ci.org/sahat/hackathon-starter) [![Analytics](https://ga-beacon.appspot.com/UA-47447818-2/hackathon-starter?pixel)](https://github.com/igrigorik/ga-beacon)
 =======================
 
-A boilerplate for **Node.js** web applications.
+A boilerplate for **Node.js** web applications, forked from https://github.com/sahat/hackathon-starter.
 
 
 Table of Contents
@@ -14,7 +14,6 @@ Table of Contents
 - [FAQ](#faq)
 - [How It Works](#how-it-works-mini-guides)
 - [Mongoose Cheatsheet](#mongoose-cheatsheet)
-- [Deployment](#deployment)
 - [License](#license)
 
 
@@ -550,123 +549,6 @@ User.aggregate({ $group: { _id: null, total: { $sum: '$votes' } } }, function(er
   console.log(votesCount.total);
 });
 ```
-
-Deployment
-----------
-
-Once you are ready to deploy your app, you will need to create an account with
-a cloud platform to host it. These are not the only choices, but they are my top
-picks. From my experience, **Heroku** is the easiest to get started with, it will
-automatically restart your Node.js process when it crashes, zero-downtime
-deployments and custom domain support on free accounts. Additionally, you can
-create an account with **MongoLab** and then pick one of the *4* providers below.
-Again, there are plenty of other choices and you are not limited to just the ones
-listed below.
-
-### 1-Step Deployment with Heroku
-
-<img src="http://blog.exadel.com/wp-content/uploads/2013/10/heroku-Logo-1.jpg" width="200">
-- Download and install [Heroku Toolbelt](https://toolbelt.heroku.com/)
-- In terminal, run `heroku login` and enter your Heroku credentials
-- From *your app* directory run `heroku create`
-- Run `heroku addons:create mongolab`.  This will set up the MongoLab add-on and configure the `MONGOLAB_URI` environment variable in your Heroku app for you.
-- Lastly, do `git push heroku master`.  Done!
-
-**Note:** To install Heroku add-ons your account must be verified.
-
----
-
-<img src="http://i.imgur.com/7KnCa5a.png" width="200">
-- Open [mongolab.com](https://mongolab.com) website
-- Click the yellow **Sign up** button
-- Fill in your user information then hit **Create account**
-- From the dashboard, click on **:zap:Create new** button
-- Select **any** cloud provider (I usually go with AWS)
-- Under *Plan* click on **Single-node (development)** tab and select **Sandbox** (it's free)
- - *Leave MongoDB version as is - `2.4.x`*
-- Enter *Database name** for your web app
-- Then click on **:zap:Create new MongoDB deployment** button
-- Now, to access your database you need to create a DB user
-- Click to the recently created database
-- You should see the following message:
- - *A database user is required to connect to this database.* **Click here** *to create a new one.*
-- Click the link and fill in **DB Username** and **DB Password** fields
-- Finally, in `secrets.js` instead of `db: 'localhost'`, use the following URI with your credentials:
- - `db: 'mongodb://USERNAME:PASSWORD@ds027479.mongolab.com:27479/DATABASE_NAME'`
-
-**Note:** As an alternative to MongoLab, there is also [Compose](https://www.compose.io/).
-
-
-<img src="http://www.opencloudconf.com/images/openshift_logo.png" width="200">
-- First, install this Ruby gem: `sudo gem install rhc` :gem:
-- Run `rhc login` and enter your OpenShift credentials
-- From your app directory run `rhc app create MyApp nodejs-0.10`
- - **Note:** *MyApp* is the name your app (no spaces)
-- Once that is done, you will be provided with **URL**, **SSH** and **Git Remote** links
-- Visit provided **URL** and you should see the *Welcome to your Node.js application on OpenShift* page
-- Copy and and paste **Git Remote** into `git remote add openshift YOUR_GIT_REMOTE`
-- Before you push your app, you need to do a few modifications to your code
-
-Add these two lines to `app.js`, just place them anywhere before `app.listen()`:
-```js
-var IP_ADDRESS = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
-var PORT = process.env.OPENSHIFT_NODEJS_PORT || 8080;
-```
-
-Then change `app.listen()` to:
-```js
-app.listen(PORT, IP_ADDRESS, function() {
-  console.log("�? Express server listening on port %d in %s mode", PORT, app.settings.env);
-});
-```
-Add this to `package.json`, after *name* and *version*. This is necessary because, by default, OpenShift looks for `server.js` file. And by specifying `supervisor app.js` it will automatically restart the server when node.js process crashes.
-
-```js
-"main": "app.js",
-"scripts": {
-  "start": "supervisor app.js"
-},
-```
-
-- Finally, you can now push your code to OpenShift by running `git push -f openshift master`
- - **Note:** The first time you run this command, you have to pass `-f` (force) flag because OpenShift creates a dummy server with the welcome page when you create a new Node.js app. Passing `-f` flag will override everything with your *Hackathon Starter* project repository. **Do not** run `git pull` as it will create unnecessary merge conflicts.
-- And you are done!
-
-<img src="https://upload.wikimedia.org/wikipedia/commons/f/ff/Windows_Azure_logo.png" width="200">
-
-- Login to [Windows Azure Management Portal](https://manage.windowsazure.com/)
-- Click the **+ NEW** button on the bottom left of the portal
-- Click **COMPUTE**, then **WEB APP**, then **QUICK CREATE**
-- Enter a name for **URL** and select the datacenter **REGION** for your web site
-- Click on **CREATE WEB APP** button
-- Once the web site status changes to *Running*, click on the name of the web site to access the Dashboard
-- At the bottom right of the Quickstart page, select **Set up a deployment from source control**
-- Select **Local Git repository** from the list, and then click the arrow
-- To enable Git publishing, Azure will ask you to create a user name and password
-- Once the Git repository is ready, you will be presented with a **GIT URL**
-- Inside your *Hackathon Starter* directory, run `git remote add azure [Azure Git URL]`
-- To push your changes simply run `git push azure master`
- - **Note:** *You will be prompted for the password you created earlier*
-- On **Deployments** tab of your Windows Azure Web App, you will see the deployment history
-
-<img src="http://www.comparethecloud.net/wp-content/uploads/2014/06/ibm-bluemix_pr-030514.jpg" width="200">
-
-- Go to [Codename: Bluemix](http://bluemix.net) to signup for the free trial, or login with your *IBM id*
-- Install [Cloud Foundry CLI](https://github.com/cloudfoundry/cli)
-- Navigate to your **hackathon-starter** directory and then run `cf push [your-app-name] -m 512m` command to deploy the application
- - **Note:** You must specify a unique application name in place of `[your-app-name]`
-- Run `cf create-service mongodb 100 [your-service-name]` to create a [MongoDB service](https://www.ng.bluemix.net/docs/#services/MongoDB/index.html#MongoDB)
-- Run `cf bind-service [your-app-name] [your-service-name]` to associate your application with a service created above
-- Run `cf files [your-app-name] logs/env.log` to see the *environment variables created for MongoDB.
-- Copy the **MongoDB URI** that should look something like the following: `mongodb://68638358-a3c6-42a1-bae9-645b607d55e8:46fb97e6-5ce7-4146-9a5d-d623c64ff1fe@192.155.243.23:10123/db`
-- Then set it as an environment variable for your application by running `cf set-env [your-app-name] MONGODB [your-mongodb-uri]`
-- Run `cf restart [your-app-name]` for the changes to take effect.
-- Visit your starter app at **http://[your-app-name].ng.bluemix.net**
-- Done!
-
-**Note:** Alternative directions, including how to setup the project with a DevOps pipeline are available at [http://ibm.biz/hackstart](http://ibm.biz/hackstart).
-A longer version of these instructions with screenshots is available at [http://ibm.biz/hackstart2](http://ibm.biz/hackstart2).
-Also, be sure to check out the [Jump-start your hackathon efforts with DevOps Services and Bluemix](https://www.youtube.com/watch?v=twvyqRnutss) video.
 
 License
 -------
