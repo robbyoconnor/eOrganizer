@@ -22,6 +22,12 @@ var userSchema = new mongoose.Schema({
     picture: { type: String, default: '' }
   },
 
+  // eventPosts: {
+  //   name: String,
+  //   description: String,
+  //   created:Date 
+  // },
+
   resetPasswordToken: String,
   resetPasswordExpires: Date
 });

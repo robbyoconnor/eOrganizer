@@ -1,5 +1,20 @@
 extends layout
 
 block content
-  h1 TEST route
-  hr
+  .page-header
+    h3 Create event
+  form.form-horizontal(id='new-post-form', method='POST')
+    input(type='hidden', name='_csrf', value=_csrf)
+    .form-group
+      label.col-sm-3.control-label(for='title') Title
+      .col-sm-7
+        input.form-control(type='text', name='title', id='title', placeholder='Post Title', autofocus)
+    .form-group
+      label.col-sm-3.control-label(for='desc') Body
+      .col-sm-7
+        textarea.form-control(type='text', name='desc', id='desc', placeholder='Please enter your text here...')
+    .form-group
+      .col-sm-offset-3.col-sm-7
+        button.btn.btn-success(type='submit')
+          i.fa.fa-pencil
+          | Submit Post
