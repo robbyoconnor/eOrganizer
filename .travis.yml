@@ -4,5 +4,3 @@ services:
 node_js:
   -4.x
   -5.x
-script:
-  - npm test
