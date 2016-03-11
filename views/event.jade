@@ -5,14 +5,17 @@ block content
     h3 Create event
   form.form-horizontal(id='new-post-form', method='POST')
     input(type='hidden', name='_csrf', value=_csrf)
+    
     .form-group
-      label.col-sm-3.control-label(for='title') Title
+      label.col-sm-3.control-label(for='title') Title:
       .col-sm-7
         input.form-control(type='text', name='title', id='title', placeholder='Post Title', autofocus)
+    
     .form-group
-      label.col-sm-3.control-label(for='desc') Body
+      label.col-sm-3.control-label(for='desc') Description:
       .col-sm-7
-        textarea.form-control(type='text', name='desc', id='desc', placeholder='Please enter your text here...')
+        textarea.form-control(type='text', name='desc', id='desc', placeholder='Event description goes here...')
+    
     .form-group
       .col-sm-offset-3.col-sm-7
         button.btn.btn-success(type='submit')
