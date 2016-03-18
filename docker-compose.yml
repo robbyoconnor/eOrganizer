@@ -1,0 +1,18 @@
+version: '2'
+services:
+  db:
+    image: mysql:5.7 
+    ports:
+      - "0.0.0.0:3306:3306“
+  web:
+    build: .
+    depends_on:
+      - db
+    environment:
+      - MYSQL_ROOT_PASSWORD=r00t
+      - MYSQL_DATABASE=eorganizer
+      - MYSQL_USER=organizer
+      - MYSQL_PASSWORD=somethingsecret
+    volumes:
+      - .:/app
+      

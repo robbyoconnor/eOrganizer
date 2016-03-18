@@ -39,6 +39,26 @@ Getting Started
 
 The easiest way to get started is to clone the repository:
 
+### Bootstrapping your development environment
+
+#### OSX and Windows Users
+
+Docker depends on low-level functionality within the Linux kernel, and it does not work natively on Windows or Mac OSX. Fear not, [docker toolbox](https://www.docker.com/products/docker-toolbox) provides a seamless experience via a virtual machine. Install that and everything should be smooth sailing from there.
+
+So that people don't have to spend time installing stuff I dockerized the
+app itself.
+
+Download [docker][] and [docker-compose][]. The choice to use docker was that it just works and is easily replicated. Only one person should need to spend time setting things up like this.
+
+Once you have done this:
+
+simply type (or copy/paste):
+
+``` shell
+$ docker-compose build web && docker-compose up -d 
+```
+Mysql will bind to 3306 on all interfaces, this includes the host (your machine) – so if you have it installed, you can remove it. 
+
 ```bash
 # Get the latest snapshot
 $ git clone https://github.com/CUNYTech/eOrganizer
@@ -562,3 +582,6 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+[docker]: https://docs.docker.com/engine/installation/linux/ubuntulinux/
+[docker-compose]: https://docs.docker.com/compose/install/
